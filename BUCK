@@ -46,6 +46,15 @@ windows_srcs = [
 
 platform_srcs = macos_srcs + linux_srcs + bsd_srcs + windows_srcs
 
+linux_exported_linker_flags = [
+
+]
+
+macos_exported_linker_flags = [
+  '-framework', 'CoreFoundation',
+  '-framework', 'IOKit',
+]
+
 cxx_library(
   name = 'serialport',
   header_namespace = '',
@@ -67,32 +76,5 @@ cxx_library(
   ],
   visibility = [
     'PUBLIC',
-  ],
-)
-
-linux_exported_linker_flags = [
-
-]
-
-macos_exported_linker_flags = [
-  '-framework', 'CoreFoundation',
-  '-framework', 'IOKit',
-]
-
-cxx_binary(
-  name = 'example',
-  srcs = [
-    'example.cpp',
-  ],
-  compiler_flags = [
-    '-std=c++14',
-  ],
-  platform_linker_flags = [
-    ('default', linux_exported_linker_flags),
-    ('^macos.*', macos_exported_linker_flags),
-    ('^linux.*', linux_exported_linker_flags),
-  ],
-  deps = [
-    ':serialport',
   ],
 )
