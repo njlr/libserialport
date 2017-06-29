@@ -59,9 +59,9 @@ cxx_library(
     '*.c',
   ], excludes = platform_srcs),
   platform_srcs = [
-    ('default', macos_srcs),
+    ('default', linux_srcs),
     ('^macos.*', macos_srcs),
-    ('^linux.*', macos_srcs),
+    ('^linux.*', linux_srcs),
     ('^.*bsd.*', bsd_srcs),
     ('^windows.*', windows_srcs),
   ],
@@ -69,6 +69,10 @@ cxx_library(
     'PUBLIC',
   ],
 )
+
+linux_exported_linker_flags = [
+
+]
 
 macos_exported_linker_flags = [
   '-framework', 'CoreFoundation',
@@ -84,8 +88,9 @@ cxx_binary(
     '-std=c++14',
   ],
   platform_linker_flags = [
-    ('default', macos_exported_linker_flags),
+    ('default', linux_exported_linker_flags),
     ('^macos.*', macos_exported_linker_flags),
+    ('^linux.*', linux_exported_linker_flags),
   ],
   deps = [
     ':serialport',
